@@ -1,5 +1,5 @@
-// const getChallengesPort = 'http://localhost:3000';
-const getChallengesPort = 'https://wildbody-server.shop';
+const getChallengesPort = 'http://localhost:3000';
+// const getChallengesPort = 'https://wildbody-server.shop';
 
 const getChallengesToken = localStorage.getItem('cookie');
 const expiration = localStorage.getItem('tokenExpiration');
@@ -92,18 +92,18 @@ async function initChallengeList(option) {
             </div>
           </td>
           <td>
-           <div class="challenges-point">
-            <div class="challenge-fail">
-              실패 시<span class="badge fail-span">-${
-                challenge.entryPoint
-              }점</span>
+            <div class="challenges-point">
+              <div class="challenge-fail">
+                실패 시<span class="badge fail-span">-${
+                  challenge.entryPoint
+                }점</span>
+              </div>
+              <div class="challenge-success">
+                성공 시 최대<span class="badge success-span">+${
+                  challenge.entryPoint * challenge.userNumber
+                }점</span>
+              </div>
             </div>
-            <div class="challenge-success">
-              성공 시 최대<span class="badge success-span">+${
-                challenge.entryPoint * challenge.userNumber
-              }점</span>
-            </div>
-           </div>
           </td>
           <td>${challenge.userNumber} / ${challenge.userNumberLimit}명</td>
           <td>

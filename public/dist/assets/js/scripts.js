@@ -1,9 +1,8 @@
 'use strict';
 
-// 로그아웃
+// LOGOUT
 async function logout() {
   localStorage.removeItem('cookie');
-  alert('로그아웃 되었습니다.');
   location.href = 'login.html';
 }
 $(document).ready(() => {

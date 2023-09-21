@@ -1,5 +1,5 @@
-// const mainPort = 'http://localhost:3000';
-const mainPort = 'https://wildbody-server.shop';
+const mainPort = 'http://localhost:3000';
+// const mainPort = 'https://wildbody-server.shop';
 
 const mainToken = localStorage.getItem('cookie');
 const expiration = localStorage.getItem('tokenExpiration');
@@ -8,16 +8,16 @@ const isTokenExpired = new Date().getTime() > expiration;
 if (!mainToken || isTokenExpired) {
   localStorage.setItem('cookie', '');
   localStorage.setItem('tokenExpiration', '');
-  $('#createRecord').css('visibility', 'hidden');
-  $('.daterange-btn').css('visibility', 'hidden');
-  $('.place-holder-record').text(
-    '로그인 후 체성분 관리 기능을 이용할 수 있습니다.',
-  );
+
+  $('.section-body').css('visibility', 'hidden');
+  $('.row').css('visibility', 'hidden');
+
   const inoutBtn = $('#logout-button');
   $(inoutBtn).text('Login');
   $('.profile-button').css('display', 'none');
+
   setTimeout(() => {
-    alert('로그인이 필요한 기능입니다.');
+    alert('사용자 인증이 필요한 기능입니다.');
   }, 500);
 } else {
   const inoutBtn = $('#logout-button');
@@ -34,7 +34,7 @@ $(document).ready(function () {
   getBodyResults();
 
   $('.daterange-cus').daterangepicker({
-    startDate: moment().subtract(1, 'years'),
+    startDate: moment().subtract(3, 'months'),
     endDate: moment(),
     locale: {
       format: 'YYYY-MM-DD',
@@ -42,26 +42,16 @@ $(document).ready(function () {
   });
 });
 
-const modal = $('#modal-background');
-
-$('.modal-up').on('click', () => {
-  $(modal).css('display', 'block');
-});
-
-$('.cancel-regist').on('click', () => {
-  $(modal).css('display', 'none');
-});
-
 async function initializeChart() {
   const bmrArr = [];
   const weightArr = [];
-  const muscleArr = [];
   const fatArr = [];
+  const muscleArr = [];
   const dateArr = [];
   const recentDatas = $('.recent-bodyData');
 
   try {
-    const { data } = await getRecordData(1, 7);
+    const { data } = await getRecordData(1, 10);
     const records = data.pageinatedUsersRecords;
 
     for (const rec of records) {
@@ -80,14 +70,14 @@ async function initializeChart() {
       dateArr.push(recordDate);
     }
   } catch (error) {
-    console.error('Error message:', error.response.data.message);
+    console.error(error.response.data.message);
   }
 
   dateArr.reverse();
-  bmrArr.reverse();
   weightArr.reverse();
-  muscleArr.reverse();
   fatArr.reverse();
+  muscleArr.reverse();
+  bmrArr.reverse();
 
   $(recentDatas[0]).text(
     weightArr[weightArr.length - 1] !== undefined
@@ -110,10 +100,10 @@ async function initializeChart() {
       : 'kcal',
   );
 
-  initChart('myChart', bmrArr, dateArr, 50, '기초대사량(kcal)');
-  initChart('myChart2', weightArr, dateArr, 5, '체중(kg)');
+  initChart('myChart1', weightArr, dateArr, 5, '체중(kg)');
+  initChart('myChart2', fatArr, dateArr, 5, '체지방률(%)');
   initChart('myChart3', muscleArr, dateArr, 5, '골격근량(kg)');
-  initChart('myChart4', fatArr, dateArr, 5, '체지방률(%)');
+  initChart('myChart4', bmrArr, dateArr, 50, '기초대사량(kcal)');
 }
 
 async function getBodyResults() {
@@ -156,7 +146,7 @@ async function getBodyResults() {
       diet =
         '체지방량이 표준을 초과하며 근육량이 표준 미만이므로 고단백 저탄수화물의 식단으로 관리가 필요한 상태입니다. 더불어 식이섬유가 풍부한 오이나 당근 등 채소를 많이 드세요.';
       workout =
-        '유산소 운동뿐만 아니라 근력운동을 병행해야 체중 감소에 도움이 됩니다. 하루에 30분 이상 걷고 체중을 이용한 팔굽혀펴기, 윗몸일으키기 등을 주 3회 30분 이상 실시하세요.';
+        '유산소 운동뿐만 아니라 근력 운동을 병행해야 체중 감소에 도움이 됩니다. 하루에 30분 이상 걷고 체중을 이용한 팔굽혀펴기, 윗몸일으키기 등을 주 3회 30분 이상 실시하세요.';
     } else if (resWeight < -5 && resFat < -5 && resMuscle === 0) {
       diet =
         '근육량은 표준이지만 체지방률을 낮추기 위해 고단백 저탄수화물의 식단으로 관리가 필요한 상태입니다. 더불어 식이섬유가 풍부한 오이나 당근 등 채소를 많이 드세요.';
@@ -171,7 +161,7 @@ async function getBodyResults() {
       diet =
         '표준에 가까운 체성분 수치이므로, 건강한 식단을 꾸준히 유지하세요.';
       workout =
-        '표준에 가까운 체성분 수치이므로, 유산소 운동과 근력 운동을 꾸준히 실시하세요.';
+        '표준에 가까운 체성분 수치이므로, 근력 운동과 유산소 운동을 꾸준히 실시하세요.';
     }
 
     $('#food-result').text(diet);
@@ -183,27 +173,23 @@ async function getBodyResults() {
     const avgMuscle = $('#avg-muscle');
 
     $(bodyResults[0]).text(`${stdWeight}kg`);
-    $(bodyResults[1]).text(
-      resWeight < 0 ? `${resWeight}kg` : `+${resWeight}kg`,
-    );
-    $(bodyResults[2]).text(`${stdFat}%`);
-    $(bodyResults[3]).text(resFat < 0 ? `${resFat}%` : `+${resFat}%`);
-    $(bodyResults[4]).text(`${stdMuscle}kg`);
-    $(bodyResults[5]).text(
-      resMuscle < 0 ? `${resMuscle}kg` : `+${resMuscle}kg`,
-    );
+    // $(bodyResults[1]).text(
+    //   resWeight < 0 ? `${resWeight}kg` : `+${resWeight}kg`,
+    // );
+    $(bodyResults[1]).text(`${stdFat}%`);
+    // $(bodyResults[3]).text(resFat < 0 ? `${resFat}%` : `+${resFat}%`);
+    $(bodyResults[2]).text(`${stdMuscle}kg`);
+    // $(bodyResults[5]).text(
+    //   resMuscle < 0 ? `${resMuscle}kg` : `+${resMuscle}kg`,
+    // );
 
-    $(avgWeight).text(
-      `평균 체중 :  ${avgDatas.avgWgt ? avgDatas.avgWgt : ''}(kg)`,
-    );
-    $(avgFat).text(
-      `평균 체지방률 :  ${avgDatas.avgFat ? avgDatas.avgFat : ''}(%)`,
-    );
+    $(avgWeight).text(`체중 :  ${avgDatas.avgWgt ? avgDatas.avgWgt : ''}kg`);
+    $(avgFat).text(`체지방률 :  ${avgDatas.avgFat ? avgDatas.avgFat : ''}%`);
     $(avgMuscle).text(
-      `평균 골격근량 :  ${avgDatas.avgMus ? avgDatas.avgMus : ''}(kg)`,
+      `골격근량 :  ${avgDatas.avgMus ? avgDatas.avgMus : ''}kg`,
     );
   } catch (error) {
-    console.error('Error message:', error.response.data.message);
+    console.error(error.response.data.message);
   }
 }
 
@@ -212,6 +198,7 @@ async function initializeList(page, pageSize) {
   const pagenationTag = $('#record-pagenation');
   const prevButton = `<li id="prev_button" class="page-item"><a class="page-link">이전</a></li>`;
   const nextButton = `<li id="next_button" class="page-item"><a class="page-link">다음</a></li>`;
+
   let pageNumbers = '';
   let pageNumbersHtml = '';
   let recordsHtml = '';
@@ -220,20 +207,15 @@ async function initializeList(page, pageSize) {
   const data = await getRecordData(page, pageSize);
 
   if (data) {
-    $('.place-holder-record').html('');
-    $('.total-record').css('display', 'block');
-    $('.table-responsive').css('display', 'block');
-    $('#myChart').css('display', 'block');
-    $('#myChart1').css('display', 'block');
-    $('#myChart2').css('display', 'block');
-    $('#myChart3').css('display', 'block');
-    $('.main-footer').css('display', 'block');
+    $('.card-main').css('display', 'block');
+
     const records = data.data.pageinatedUsersRecords;
     totalPages = data.data.totalPages;
+
     for (let i = 1; i <= data.data.totalPages; i++) {
       pageNumbers += `<li class="page-item page_number">
-        <a class="page-link">${i}</a>
-      </li>`;
+                        <a class="page-link">${i}</a>
+                      </li>`;
     }
 
     records.forEach((record) => {
@@ -244,30 +226,30 @@ async function initializeList(page, pageSize) {
 
       const recordDate = `${year}.${month}.${day}`;
 
-      const temp = `  <tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
-      <td>
-        <div style="margin-top:10px; ">${recordDate}</div>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
-      </td>
-    </tr>`;
-
+      const temp = `<tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
+        <td>
+          <div style="margin-top:10px; ">${recordDate}</div>
+        </td>
+        <td>
+          <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
+        </td>
+        <td>
+          <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
+        </td>
+        <td>
+          <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
+        </td>
+        <td>
+          <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
+        </td>
+      </tr>`;
       recordsHtml += temp;
     });
 
     pageNumbersHtml = prevButton + pageNumbers + nextButton;
     recordTable.html(recordsHtml);
     pagenationTag.html(pageNumbersHtml);
+
     const prevBtn = $('#prev_button');
     const nextBtn = $('#next_button');
     const pages = $('.page_number');
@@ -281,7 +263,9 @@ async function initializeList(page, pageSize) {
 
             const { data } = await getRecordData(nowPage - 1, 10);
             const records = data.pageinatedUsersRecords;
+
             setRecordList(records);
+
             nowPage -= 1;
             recordsHtml = '';
 
@@ -294,7 +278,7 @@ async function initializeList(page, pageSize) {
               .find('.page-link')
               .css('color', 'white');
           } catch (error) {
-            console.error('Error message:', error.response.data.message);
+            console.error(error.response.data.message);
           }
         }
       }
@@ -308,7 +292,9 @@ async function initializeList(page, pageSize) {
           try {
             const { data } = await getRecordData(nowPage + 1, 10);
             const records = data.pageinatedUsersRecords;
+
             setRecordList(records);
+
             nowPage += 1;
             recordsHtml = '';
 
@@ -321,13 +307,13 @@ async function initializeList(page, pageSize) {
               .find('.page-link')
               .css('color', 'white');
           } catch (error) {
-            console.error('Error message:', error.response.data.message);
+            console.error(error.response.data.message);
           }
         }
       }
     });
 
-    $(pages).each((idx, page) => {
+    $(pages).each((index, page) => {
       $(page).click(async () => {
         if (orderList === 'normal') {
           $(pages).find('.page-link').css('background-color', '');
@@ -339,17 +325,19 @@ async function initializeList(page, pageSize) {
               10,
             );
             const records = data.pageinatedUsersRecords;
+
             setRecordList(records);
 
             $(page)
               .find('.page-link')
               .css('background-color', 'rgb(103,119,239)');
             $(page).find('.page-link').css('color', 'white');
+
             nowPage = parseInt($(page).find('.page-link').text());
 
             recordsHtml = '';
           } catch (error) {
-            console.error('Error message:', error.response.data.message);
+            console.error(error.response.data.message);
           }
         }
       });
@@ -358,29 +346,33 @@ async function initializeList(page, pageSize) {
     $('.daterange-btn').on('click', async function () {
       $('.page_number').find('.page-link').css('background-color', '');
       $('.page_number').find('.page-link').css('color', '');
+
       nowPage = 1;
+
       const recordTable = $('#record-table');
       const pagenationTag = $('#record-pagenation');
       const prevButton = `<li id="prev_button" class="page-item"><a class="page-link">이전</a></li>`;
       const nextButton = `<li id="next_button" class="page-item"><a class="page-link">다음</a></li>`;
+
       let pageNumbers = '';
       let pageNumbersHtml = '';
       let recordsHtml = '';
 
       orderList = 'date';
+
       const range = $('.daterange-cus').data('daterangepicker');
       const startDate = range.startDate.format('YYYY-MM-DD');
       const endDate = range.endDate.format('YYYY-MM-DD');
 
       const data = await getDateRangeRecord(startDate, endDate, 1);
-
       const records = data.data.pageinatedUsersRecords;
 
       totalPages = data.data.totalPages;
+
       for (let i = 1; i <= data.data.totalPages; i++) {
         pageNumbers += `<li class="page-item page_number">
-          <a class="page-link">${i}</a>
-        </li>`;
+                          <a class="page-link">${i}</a>
+                        </li>`;
       }
 
       records.forEach((record) => {
@@ -391,34 +383,36 @@ async function initializeList(page, pageSize) {
 
         const recordDate = `${year}.${month}.${day}`;
 
-        const temp = `  <tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
-      <td>
-        <div style="margin-top:10px; ">${recordDate}</div>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
-      </td>
-      <td>
-        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
-      </td>
-    </tr>`;
+        const temp = `<tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
+          <td>
+            <div style="margin-top:10px; ">${recordDate}</div>
+          </td>
+          <td>
+            <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
+          </td>
+          <td>
+            <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
+          </td>
+          <td>
+            <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
+          </td>
+          <td>
+            <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
+          </td>
+        </tr>`;
         recordsHtml += temp;
       });
 
       pageNumbersHtml = prevButton + pageNumbers + nextButton;
       recordTable.html(recordsHtml);
       pagenationTag.html(pageNumbersHtml);
+
       $('.page_number')
         .eq(0)
         .find('.page-link')
         .css('background-color', 'rgb(103,119,239)');
       $('.page_number').eq(0).find('.page-link').css('color', 'white');
+
       const prevBtn = $('#prev_button');
       const nextBtn = $('#next_button');
       const pages = $('.page_number');
@@ -440,7 +434,9 @@ async function initializeList(page, pageSize) {
                 nowPage - 1,
               );
               const records = data.pageinatedUsersRecords;
+
               setRecordList(records);
+
               nowPage -= 1;
               recordsHtml = '';
 
@@ -453,7 +449,7 @@ async function initializeList(page, pageSize) {
                 .find('.page-link')
                 .css('color', 'white');
             } catch (error) {
-              console.error('Error message:', error.response.data.message);
+              console.error(error.response.data.message);
             }
           }
         }
@@ -475,7 +471,9 @@ async function initializeList(page, pageSize) {
                 nowPage + 1,
               );
               const records = data.pageinatedUsersRecords;
+
               setRecordList(records);
+
               nowPage += 1;
               recordsHtml = '';
 
@@ -488,21 +486,24 @@ async function initializeList(page, pageSize) {
                 .find('.page-link')
                 .css('color', 'white');
             } catch (error) {
-              console.error('Error message:', error.response.data.message);
+              console.error(error.response.data.message);
             }
           }
         }
       });
 
-      $(pages).each((idx, page) => {
+      $(pages).each((index, page) => {
         $(page).click(async () => {
           if (orderList === 'date') {
             const range = $('.daterange-cus').data('daterangepicker');
             const startDate = range.startDate.format('YYYY-MM-DD');
             const endDate = range.endDate.format('YYYY-MM-DD');
+
             $(pages).find('.page-link').css('background-color', '');
             $(pages).find('.page-link').css('color', '');
+
             nowPage = parseInt($(page).find('.page-link').text());
+
             try {
               const { data } = await getDateRangeRecord(
                 startDate,
@@ -510,6 +511,7 @@ async function initializeList(page, pageSize) {
                 nowPage,
               );
               const records = data.pageinatedUsersRecords;
+
               setRecordList(records);
 
               $(page)
@@ -519,7 +521,7 @@ async function initializeList(page, pageSize) {
 
               recordsHtml = '';
             } catch (error) {
-              console.error('Error message:', error.response.data.message);
+              console.error(error.response.data.message);
             }
           }
         });
@@ -570,7 +572,7 @@ $('.regist-record').click(async () => {
       },
       withCredentials: true,
     });
-    alert('체성분 등록 완료');
+    alert('체성분이 등록되었습니다.');
     window.location.reload();
   } catch (error) {
     alert(error.response.data.message);
@@ -671,24 +673,23 @@ function setRecordList(records) {
 
     const recordDate = `${year}.${month}.${day}`;
 
-    const temp = `  <tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
-    <td>
-      <div style="margin-top:10px; ">${recordDate}</div>
-    </td>
-    <td>
-      <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
-    </td>
-    <td>
-      <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
-    </td>
-    <td>
-      <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
-    </td>
-    <td>
-      <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
-    </td>
-  </tr>`;
-
+    const temp = `<tr style="border-bottom:solid 2px rgba(0,0,0,0.1)">
+      <td>
+        <div style="margin-top:10px; ">${recordDate}</div>
+      </td>
+      <td>
+        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.weight}kg</p>
+      </td>
+      <td>
+        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.fat}%</p>
+      </td>
+      <td>
+        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.muscle}kg</p>
+      </td>
+      <td>
+        <p href="#" class="font-weight-600" style="margin-top:25px;">${record.bmr}kcal</p>
+      </td>
+    </tr>`;
     recordsHtml += temp;
   });
   recordTable.html(recordsHtml);
@@ -697,7 +698,6 @@ function setRecordList(records) {
 async function getDateRangeRecord(startDate, endDate, page) {
   const { data } = await axios.get(
     `${mainPort}/record/date/period/page/?page=${page}&pageSize=10&start=${startDate}&end=${endDate}`,
-
     {
       headers: {
         Authorization: mainToken,
