@@ -33,7 +33,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag() {dataLayer.push(arguments);}
     gtag('js', new Date());
 
     gtag('config', 'UA-94034622-3');
@@ -51,30 +51,30 @@
             <li>
               <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
             </li>
+            <li>
+              <a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a>
+            </li>
           </ul>
         </form>
         <ul class="navbar-nav navbar-right">
           <li class="dropdown dropdown-list-toggle">
-            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep" id="requestlists"><i
+            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle" id="requestlists"><i
                 class="far fa-envelope"></i></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right" style="width: 450px; padding-left: 10px">
               <div class="dropdown-header">
                 요청
-                <div class="float-right">
-                
-                </div>
+                <div class="float-right"></div>
               </div>
               <div class="dropdown-list-content dropdown-list-message" style="overflow-y: scroll; height: 300px">
                 <a href="#" class="dropdown-item dropdown-item-unread">
-
-                  <!-- 친구요청 메시지함 -->
+                  <!-- 친구 요청함 -->
                   <div style="width: 50px" class="dropdown-item-avatar" id="friend">
                     <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle" />
                     <div class="is-online"></div>
                   </div>
                   <div class="dropdown-item-desc">
-                    <p id="inviteUserMessage">Hello, Bro!</p>
-                    <div id="inviteUsercreatedAt">2023.08.31</div>
+                    <p id="inviteUserMessage"></p>
+                    <div id="inviteUsercreatedAt"></div>
                     <button class="btn btn-sm btn accept-friend" data-follower-id="${message.userId}">
                       수락
                     </button>
@@ -82,15 +82,14 @@
                       거절
                     </button>
                   </div>
-
-                  <!-- 도전 초대메시지함 -->
+                  <!-- 도전 초대함 -->
                   <div class="dropdown-item-avatar" id="challenger">
-                    <img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle" />
+                    <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle" />
                     <div class="is-online"></div>
                   </div>
                   <div class="dropdown-item-desc">
-                    <p id="challengeMessage">Hello, Bro!</p>
-                    <div id="challengeCreatedAt">2023.08.31</div>
+                    <p id="challengeMessage"></p>
+                    <div id="challengeCreatedAt"></div>
                     <button class="btn btn-sm btn accept-challenge" data-user-id="${message.userId}">
                       수락
                     </button>
@@ -106,12 +105,11 @@
 
           <li class="dropdown dropdown-list-toggle">
             <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i
-                class="far fa-bell"></i></a>
+                class="far fa-bell" style="margin-right: 10px;"></i></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
               <div class="dropdown-header">
-              알림
+                알림
                 <div class="float-right">
-               
                 </div>
               </div>
               <div id="log-box" class="dropdown-list-content dropdown-list-icons">
@@ -120,36 +118,29 @@
                     <i class="fas fa-code"></i>
                   </div>
                   <div class="dropdown-item-desc">
-                    Template update is available now!
-                    <div class="time text-primary">2 Min Ago</div>
+                    <div class="time text-primary"></div>
                   </div>
                 </a>
               </div>
             </div>
           </li>
 
-          <li class="dropdown"><a href="#" data-toggle="dropdown"
-              class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-              <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-              <div class="d-sm-none d-lg-inline-block">내 정보</div>
+          <li class="dropdown profile-button" style="margin-top:3px;">
+            <a href="my-Info.html"
+              style="padding:0;  font-size:14px; color:white; text-decoration: none; margin-top:15px;">
+              <i class="far fa-user"></i> Profile
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-title">OUTBODY</div>
-              <a href="my-Info.html" class="dropdown-item has-icon">
-                <i class="far fa-user"></i> Profile
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="login.html" class="dropdown-item has-icon text-primary">
-                <i class="fas fa-sign-in-alt"></i> Login
-              </a>
-              <a href="#" class="dropdown-item has-icon text-danger" id="logout-button">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
-            </div>
+          </li>
+          <li class="dropdown" style="margin-top:3px">
+
+            <a href="#" id="logout-button"
+              style="padding:0; margin-left:10px;  font-size:14px; color:white; text-decoration: none; margin-top:15px;">
+              <i class="fas fa-sign-out-alt "></i>
+            </a>
+
           </li>
         </ul>
       </nav>
-    
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
@@ -159,39 +150,36 @@
           <div class="sidebar-brand sidebar-brand-sm">
             <a>OB</a>
           </div>
-      <!-- 사이드바 -->
-      <ul class="sidebar-menu">
-
-        <li class="menu-header">Record</li>
-        <li >
-          <a href="main.html"><i class="fas fa-columns"></i>
-            <span>체성분</span></a>
-        </li>
-
-        <li class="menu-header">Challenge</li>
-        <li >
-          <a href="get-challenges.html"><i class="fas fa-fire"></i>
-            <span>도전</span></a>
-        </li>
-      
-        <li class="menu-header">Post</li>
-        <li >
-          <a href="sns.html"><i class="fas fa-bicycle"></i>
-            <span>오운완</span></a>
-        </li>
-
-        <li class="menu-header">Rank</li>
-        <li >
-          <a href="rank.html"><i class="fas fa-th"></i>
-            <span>순위</span></a>
-        </li>
-        <li class="menu-header">Service</li>
-        <li>
-          <a href="outbody.html"><i class="fas fa-home"></i>
-            <span>About OutBody</span></a>
-        </li>
-    </aside>
-  </div>
+          <!-- sidebar -->
+          <ul class="sidebar-menu">
+            <li class="menu-header">Record</li>
+            <li>
+              <a href="main.html"><i class="fas fa-columns"></i>
+                <span>체성분</span></a>
+            </li>
+            <li class="menu-header">Challenge</li>
+            <li>
+              <a href="get-challenges.html"><i class="fas fa-fire"></i>
+                <span>도전</span></a>
+            </li>
+            <li class="menu-header">Post</li>
+            <li>
+              <a href="sns.html"><i class="fas fa-bicycle"></i>
+                <span>오운완</span></a>
+            </li>
+            <li class="menu-header">Rank</li>
+            <li>
+              <a href="rank.html"><i class="fas fa-th"></i>
+                <span>순위</span></a>
+            </li>
+            <li class="menu-header">Introduce</li>
+            <li>
+              <a href="outbody.html"><i class="fas fa-home"></i>
+                <span>OUTBODY</span></a>
+            </li>
+          </ul>
+        </aside>
+      </div>
 
       <!-- Main Content -->
       <div class="main-content">
@@ -379,21 +367,22 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
+        </section>
       </div>
-      </section>
-    </div>
-    <footer class="main-footer"  style="position:fixed; bottom:0;">
-      <div class="footer-left">
-        Copyright &copy; 2023 <div class="bullet"></div> Design By <a style="font-weight: bold;">wildbody-server
-          </a>
-      </div>
-      <div class="footer-right">
 
-      </div>
-    </footer>
-  </div>
+      <footer class="main-footer">
+        <div class="footer-left">
+          Copyright &copy; 2023
+          <div class="bullet"></div>
+          Design By <a style="font-weight: bold;">WildBody</a>
+        </div>
+        <div class="footer-right"></div>
+      </footer>
+
+    </div>
   </div>
 
   <!-- General JS Scripts -->

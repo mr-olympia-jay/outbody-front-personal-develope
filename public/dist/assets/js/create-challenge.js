@@ -2,6 +2,24 @@ const createChallengePort = 'http://localhost:3000';
 // const createChallengePort = 'https://wildbody-server.shop';
 
 const createChallengeToken = localStorage.getItem('cookie');
+const expiration = localStorage.getItem('tokenExpiration');
+const isTokenExpired = new Date().getTime() > expiration;
+
+if (!createChallengeToken || isTokenExpired) {
+  localStorage.setItem('cookie', '');
+  localStorage.setItem('tokenExpiration', '');
+
+  const inoutBtn = $('#logout-button');
+  $(inoutBtn).text('Login');
+  $('.profile-button').css('display', 'none');
+
+  setTimeout(() => {
+    alert('사용자 인증이 필요한 기능입니다.');
+  }, 500);
+} else {
+  const inoutBtn = $('#logout-button');
+  $(inoutBtn).html('<i class="fas fa-sign-out-alt"></i> Logout');
+}
 
 // 도전 세부 설정
 let startDate = null;

@@ -1,21 +1,23 @@
-// const getOneChallengePort = 'http://localhost:3000';
-const getOneChallengePort = 'https://wildbody-server.shop';
+const getOneChallengePort = 'http://localhost:3000';
+// const getOneChallengePort = 'https://wildbody-server.shop';
 
 const urlParams = new URLSearchParams(window.location.search);
 const challengeId = urlParams.get('id');
 
-const getAccessToken = localStorage.getItem('cookie');
+const getOneChallengeToken = localStorage.getItem('cookie');
 const expiration = localStorage.getItem('tokenExpiration');
 const isTokenExpired = new Date().getTime() > expiration;
 
-if (!getAccessToken || isTokenExpired) {
+if (!getOneChallengeToken || isTokenExpired) {
   localStorage.setItem('cookie', '');
   localStorage.setItem('tokenExpiration', '');
+
   const inoutBtn = $('#logout-button');
-  $('.profile-button').css('display', 'none');
   $(inoutBtn).text('Login');
+  $('.profile-button').css('display', 'none');
+
   setTimeout(() => {
-    alert('로그인이 필요한 기능입니다.');
+    alert('사용자 인증이 필요한 기능입니다.');
   }, 500);
 } else {
   const inoutBtn = $('#logout-button');
@@ -33,7 +35,7 @@ async function checkUserIsInChallenge() {
       `${getOneChallengePort}/challenge/${challengeId}/userState`,
       {
         headers: {
-          Authorization: getAccessToken,
+          Authorization: getOneChallengeToken,
         },
       },
     );
@@ -50,7 +52,7 @@ async function getChallengeDetail() {
   await axios
     .get(`${getOneChallengePort}/challenge/${challengeId}`, {
       headers: {
-        Authorization: getAccessToken,
+        Authorization: getOneChallengeToken,
       },
     })
     .then((response) => {
@@ -111,7 +113,7 @@ async function getChallengeDetail() {
                 : ''
               : `<a id="enter-challenge" class="btn btn-primary" style="color: white;">도전 입장</a>`
           }
-          <a class="challenge-user" style="color: white;">${
+          <a class="btn btn-secondary" style="color: white;">${
             challenge.userNumber
           } / ${challenge.userNumberLimit}명</a>
           ${
@@ -127,46 +129,50 @@ async function getChallengeDetail() {
         <div class="section-title mt-0" style="margin-bottom: 20px;">기간</div>          
         
         <div class="challenges-date">
-          <div class="challenge-date" style="margin-bottom: 20px;">시작일
-            <span class="badge span-css">${challenge.startDate}</span>
-            &nbsp종료일 <span class="badge span-css">${
+          <div class="btn btn-primary" style="margin-bottom: 20px;">시작일
+            <span class="badge badge-transparent">${challenge.startDate}</span>
+            &nbsp종료일 <span class="badge badge-transparent">${
               challenge.endDate
             }</span>&nbsp
           </div>
-          <div class="challenge-date" style="margin-bottom: 20px;">
-            도전 종료까지 <span id="countdown" class="badge span-css"></span>&nbsp남음
+          <div class="btn btn-primary" style="margin-bottom: 20px;">
+            도전 종료까지 <span id="countdown" class="badge badge-transparent"></span>&nbsp남음
           </div>
         </div>
 
         <div class="section-title mt-0" style="margin-bottom: 20px;">목표</div>
         <div class="challenges-list">
-          <div class="challenge-list" style="margin-bottom: 20px;">
-            오운완 출석<span class="badge span-css">${
+          <div class="btn btn-primary" style="margin-bottom: 20px;">
+            오운완 출석<span class="badge badge-transparent">${
               challenge.goalAttend
             }일</span>
           </div>
-          <div class="challenge-list" style="margin-bottom: 20px;">
-            체중 <span class="badge span-css">-${challenge.goalWeight}kg</span>
+          <div class="btn btn-primary" style="margin-bottom: 20px;">
+            체중 <span class="badge badge-transparent">-${
+              challenge.goalWeight
+            }kg</span>
           </div>
-          <div class="challenge-list" style="margin-bottom: 20px;">
-            골격근량 <span class="badge span-css">+${
+          <div class="btn btn-primary" style="margin-bottom: 20px;">
+            골격근량 <span class="badge badge-transparent">+${
               challenge.goalMuscle
             }kg</span>
           </div>
-          <div class="challenge-list" style="margin-bottom: 20px;">
-            체지방률 <span class="badge span-css">-${challenge.goalFat}%</span>
+          <div class="btn btn-primary" style="margin-bottom: 20px;">
+            체지방률 <span class="badge badge-transparent">-${
+              challenge.goalFat
+            }%</span>
           </div>
         </div>
 
         <div class="section-title mt-0" style="margin-bottom: 20px;">점수</div>
         <div class="success-box">
-          <div class="challenge-fail" style="margin-bottom: 10px;">
-            실패 시<span class="badge fail-span">-${
+          <div class="btn btn-danger" style="margin-bottom: 10px;">
+            실패 시<span class="badge badge-transparent">-${
               challenge.entryPoint
             }점</span>
           </div>
-          <div class="challenge-success" style="margin-bottom: 10px;">
-            성공 시 최대<span class="badge success-span">+${
+          <div class="btn btn-success" style="margin-bottom: 10px;">
+            성공 시 최대<span class="badge badge-transparent">+${
               challenge.userNumber * challenge.entryPoint
             }점</span>
           </div>
@@ -202,7 +208,7 @@ async function getChallengers() {
   await axios
     .get(`${getOneChallengePort}/challenge/${challengeId}/challengers`, {
       headers: {
-        Authorization: getAccessToken,
+        Authorization: getOneChallengeToken,
       },
     })
     .then((response) => {
@@ -258,7 +264,7 @@ document.addEventListener('click', async (event) => {
     await axios
       .post(`${getOneChallengePort}/challenge/${challengeId}/enter`, null, {
         headers: {
-          Authorization: getAccessToken,
+          Authorization: getOneChallengeToken,
         },
       })
       .then((response) => {
@@ -284,7 +290,7 @@ document.addEventListener('click', async (event) => {
       await axios
         .delete(`${getOneChallengePort}/challenge/${challengeId}/leave`, {
           headers: {
-            Authorization: getAccessToken,
+            Authorization: getOneChallengeToken,
           },
         })
         .then((response) => {
@@ -311,7 +317,7 @@ document.addEventListener('click', async (event) => {
       await axios
         .delete(`${getOneChallengePort}/challenge/${challengeId}`, {
           headers: {
-            Authorization: getAccessToken,
+            Authorization: getOneChallengeToken,
           },
         })
         .then((response) => {
@@ -339,7 +345,7 @@ $('#send-invitation-button').on('click', async () => {
       `${getOneChallengePort}/user/me/searchEmail/?email=${emailInput}`,
       {
         headers: {
-          Authorization: getAccessToken,
+          Authorization: getOneChallengeToken,
         },
       },
     );
@@ -354,7 +360,7 @@ $('#send-invitation-button').on('click', async () => {
       `${getOneChallengePort}/follow/${friend.id}/isFollowed`,
       {
         headers: {
-          Authorization: getAccessToken,
+          Authorization: getOneChallengeToken,
         },
       },
     );
@@ -389,7 +395,7 @@ $('#send-invitation-button').on('click', async () => {
     await axios
       .post(`${getOneChallengePort}/challenge/${challengeId}/invite`, data, {
         headers: {
-          Authorization: getAccessToken,
+          Authorization: getOneChallengeToken,
         },
       })
       .then((response) => {

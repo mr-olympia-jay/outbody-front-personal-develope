@@ -13,6 +13,7 @@ $(document).ready(() => {
   const logoutButton = $('#logout-button');
   $(logoutButton).on('click', () => {
     if (!scriptToken || isTokenExpired) {
+      alert('사용자 인증이 해제되었습니다.');
       location.href = 'login.html';
     } else {
       logout();
