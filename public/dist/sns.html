@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>SNS &mdash; OUTBODY</title>
+
+  <!-- 제이쿼리 -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="assets/css/get-post.css">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Start GA -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-94034622-3');
+  </script>
+  <!-- /END GA -->
+</head>
+
+<body>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <form class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
+            </li>
+          </ul>
+        </form>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown dropdown-list-toggle">
+            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep" id="requestlists"><i
+                class="far fa-envelope"></i></a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right" style="width: 450px; padding-left: 10px">
+              <div class="dropdown-header">
+                요청
+                <div class="float-right">
+
+                </div>
+              </div>
+              <div class="dropdown-list-content dropdown-list-message" style="overflow-y: scroll; height: 300px">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+
+                  <!-- 친구요청 메시지함 -->
+                  <div style="width: 50px" class="dropdown-item-avatar" id="friend">
+                    <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle" />
+                    <div class="is-online"></div>
+                  </div>
+                  <div class="dropdown-item-desc">
+                    <p id="inviteUserMessage">Hello, Bro!</p>
+                    <div id="inviteUsercreatedAt">2023.08.31</div>
+                    <button class="btn btn-sm btn accept-friend" data-follower-id="${message.userId}">
+                      수락
+                    </button>
+                    <button class="btn btn-sm btn deny-friend" data-follower-id="${message.userId}">
+                      거절
+                    </button>
+                  </div>
+
+                  <!-- 도전 초대메시지함 -->
+                  <div class="dropdown-item-avatar" id="challenger">
+                    <img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle" />
+                    <div class="is-online"></div>
+                  </div>
+                  <div class="dropdown-item-desc">
+                    <p id="challengeMessage">Hello, Bro!</p>
+                    <div id="challengeCreatedAt">2023.08.31</div>
+                    <button class="btn btn-sm btn accept-challenge" data-user-id="${message.userId}">
+                      수락
+                    </button>
+                    <button class="btn btn-sm btn deny-challenge" data-user-id="${message.userId}">
+                      거절
+                    </button>
+                  </div>
+                </a>
+              </div>
+              <div class="dropdown-footer text-center"></div>
+            </div>
+          </li>
+
+          <li class="dropdown dropdown-list-toggle">
+            <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i
+                class="far fa-bell"></i></a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right">
+              <div class="dropdown-header">
+                알림
+                <div class="float-right">
+
+                </div>
+              </div>
+              <div id="log-box" class="dropdown-list-content dropdown-list-icons">
+                <a href="#" class="dropdown-item dropdown-item-unread">
+                  <div class="dropdown-item-icon bg-primary text-white">
+                    <i class="fas fa-code"></i>
+                  </div>
+                  <div class="dropdown-item-desc">
+                    Template update is available now!
+                    <div class="time text-primary">2 Min Ago</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown profile-button" style="margin-top:3px">           
+            <a href="my-Info.html"  style="padding:0;  font-size:14px; color:white; text-decoration: none; margin-top:15px;">
+              <i class="far fa-user"></i> Profile
+            </a>
+       
+        </li>
+        <li class="dropdown" style="margin-top:3px">         
+    
+          <a href="#" id="logout-button" style="padding:0; margin-left:10px;  font-size:14px; color:white; text-decoration: none; margin-top:15px;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+  
+      </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a>OUTBODY</a>
+            <br>
+          </div>
+          <div class="sidebar-brand sidebar-brand-sm">
+            <a>OB</a>
+          </div>
+          <!-- 사이드바 -->
+          <ul class="sidebar-menu">
+
+            <li class="menu-header">Record</li>
+            <li>
+              <a href="main.html"><i class="fas fa-columns"></i>
+                <span>체성분</span></a>
+            </li>
+
+            <li class="menu-header">Challenge</li>
+            <li>
+              <a href="get-challenges.html"><i class="fas fa-fire"></i>
+                <span>도전</span></a>
+            </li>
+
+            <li class="menu-header">Post</li>
+            <li>
+              <a href="sns.html"><i class="fas fa-bicycle"></i>
+                <span>오운완</span></a>
+            </li>
+
+            <li class="menu-header">Rank</li>
+            <li>
+              <a href="rank.html"><i class="fas fa-th"></i>
+                <span>순위</span></a>
+            </li>
+            <li class="menu-header">Service</li>
+            <li>
+              <a href="outbody.html"><i class="fas fa-home"></i>
+                <span>About OutBody</span></a>
+            </li>
+        </aside>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-header">
+            <h1>도전</h1>
+          </div>
+
+          <div class="section-body">
+            <h2 class="section-title">오운완
+            </h2>
+            <div class="card card-primary">
+              <div class="card-body">
+                <div class="row" id="postcardList">
+                  <!-- 오운완 게시글 목록 자리 -->
+                </div>
+              </div>
+
+              <div class="card-footer text-right">
+                <nav class="d-inline-block">
+                  <ul id="total-posts" class="total-posts"></ul>
+                </nav>
+              </div>
+            </div>
+        </section>
+      </div>
+      <footer class="main-footer"  style="position:fixed; bottom:0;">
+        <div class="footer-left">
+          Copyright &copy; 2023 <div class="bullet"></div> Design By <a style="font-weight: bold;">wildbody-server</a>
+        </div>
+        <div class="footer-right">
+        </div>
+      </footer>
+    </div>
+  </div>
+
+
+  <!-- General JS Scripts -->
+  <script src="assets/modules/jquery.min.js"></script>
+  <script src="assets/modules/popper.js"></script>
+  <script src="assets/modules/tooltip.js"></script>
+  <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+  <script src="assets/modules/moment.min.js"></script>
+  <script src="assets/js/stisla.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="assets/js/page/features-post-create.js"></script>
+
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/sns.js"></script>
+  <script src="assets/js/notice.js"></script>
+</body>
+
+</html>

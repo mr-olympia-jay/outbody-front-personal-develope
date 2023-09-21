@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport" />
+  <title>Admin &mdash; Out Body</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./jquery-3.4.1.min.js"></script>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css" />
+  <script src="assets/modules/tooltip.js"></script>
+  <scripy src="assets/modules/modal.js"></scripy>
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="assets/modules/prism/prism.css" />
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- Start GA -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-94034622-3');
+  </script>
+  <!-- /END GA -->
+  <style>
+    #modal.modal-overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <form class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
+            </li>
+            <li>
+              <a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a>
+            </li>
+          </ul>
+          <div class="search-element">
+            </button>
+            <div class="search-backdrop"></div>
+            <div class="search-result">
+              <div class="search-header">Histories</div>
+              <div class="search-item">
+                <a href="#">How to hack NASA using CSS</a>
+                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
+              </div>
+              <div class="search-item">
+                <a href="#">Kodinger.com</a>
+                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
+              </div>
+              <div class="search-item">
+                <a>OUTBODY</a>
+                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
+              </div>
+              <div class="search-header">Result</div>
+              <div class="search-item">
+                <a href="#">
+                  <img class="mr-3 rounded" width="30" src="assets/img/products/product-3-50.png" alt="product" />
+                  oPhone S9 Limited Edition
+                </a>
+              </div>
+              <div class="search-item">
+                <a href="#">
+                  <img class="mr-3 rounded" width="30" src="assets/img/products/product-2-50.png" alt="product" />
+                  Drone X2 New Gen-7
+                </a>
+              </div>
+              <div class="search-item">
+                <a href="#">
+                  <img class="mr-3 rounded" width="30" src="assets/img/products/product-1-50.png" alt="product" />
+                  Headphone Blitz
+                </a>
+              </div>
+              <div class="search-header">Projects</div>
+              <div class="search-item">
+                <a href="#">
+                  <div class="search-icon bg-danger text-white mr-3">
+                    <i class="fas fa-code"></i>
+                  </div>
+                  OutBody Admin Template
+                </a>
+              </div>
+              <div class="search-item">
+                <a href="#">
+                  <div class="search-icon bg-primary text-white mr-3">
+                    <i class="fas fa-laptop"></i>
+                  </div>
+                  Create a new Homepage Design
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+              <div class="d-sm-none d-lg-inline-block">내 정보</div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-title">OUTBODY</div>
+              <a href="my-Info.html" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="login.html" class="dropdown-item has-icon text-primary">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+              <a href="#" class="dropdown-item has-icon text-danger" id="logout-button">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a>OUTBODY</a>
+            <br>
+          </div>
+          <div class="sidebar-brand sidebar-brand-sm">
+            <a>OB</a>
+          </div>
+
+          <!-- 사이드바 -->
+          <ul class="sidebar-menu">
+
+            <li class="menu-header">Record</li>
+            <li>
+              <a href="main.html"><i class="fas fa-columns"></i>
+                <span>체성분</span></a>
+            </li>
+
+            <li class="menu-header">Challenge</li>
+            <li>
+              <a href="get-challenges.html"><i class="fas fa-fire"></i>
+                <span>도전</span></a>
+            </li>
+
+            <li class="menu-header">Post</li>
+            <li>
+              <a href="sns.html"><i class="fas fa-bicycle"></i>
+                <span>오운완</span></a>
+            </li>
+
+            <li class="menu-header">Rank</li>
+            <li>
+              <a href="rank.html"><i class="fas fa-th"></i>
+                <span>순위</span></a>
+            </li>
+
+            <li class="menu-header">Service</li>
+            <li>
+              <a href="outbody.html"><i class="fas fa-home"></i>
+                <span>About OutBody</span></a>
+            </li>
+            
+        </aside>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-header">
+            <h1>관리자</h1>
+          </div>
+          <div class="section-body">
+            <h2 class="section-title">신고 내역</h2>
+
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h4>신고된 댓글</h4>
+                    <div class="card-header-action">
+                      <a type="button" id="addBlackList" data-toggle="modal" data-target="#exampleModal"
+                        class="btn btn-primary" style="color: white;">
+                        영구 정지 회원 등록</a>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="float-left"></div>
+                    <div class="float-right"></div>
+                    <div class="clearfix mb-3"></div>
+                    <div class="table-responsive">
+                      <table id="report-table" class="table table-striped">
+                        <!-- 신고 목록이 들어가는 자리 -->
+                      </table>
+                    </div>
+                  </div>
+                  <div class="card-footer text-right">
+                    <nav class="d-inline-block">
+                      <ul class="pagination">
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- 모달 1: 블랙리스트 생성모달  -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="blackListUseradd">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">영구 정지 회원 등록</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="영구 정지 처리할 회원의 계정(e-mail)을 입력해주세요." aria-label=""
+                    id="searchEmail" />
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="findBlackList">
+                      검색
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="searched-user" class="form-group mb-0">
+                <br />
+              </div>
+              <textarea type="text" id="description" class="form-control" placeholder="사유를 입력해주세요."></textarea>
+              <br />
+            </div>
+            <div class="modal-footer" style="margin-bottom: 20px;">
+              <button class="btn btn-primary" type="button" id="createBlackList">
+                등록
+              </button>
+              <button class="btn btn-secondary" id="cancelBlackList">
+                취소
+              </button>
+              <div style="margin-top: 10px">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 모달 3: 신고유저 블랙리스트 추가모달  -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="addBlackUser">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">영구 정지 처리</h5>
+            </div>
+            <div class="card-body">
+              <textarea type="text" id="blackdescription" class="form-control" placeholder="사유를 입력해주세요."></textarea>
+              <br />
+            </div>
+            <div class="modal-footer" style="margin-bottom: 20px;">
+              <button class="btn btn-primary" type="button" id="blackuser">
+                완료
+              </button>
+              <button class="btn btn-secondary" id="canceluser">
+                취소
+              </button>
+              <div style="margin-top: 10px">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="main-footer"  style="position:fixed; bottom:0;">
+        <div class="footer-left">
+          Copyright &copy; 2023
+          <div class="bullet"></div>
+          Design By <a>OutBody</a>
+        </div>
+        <div class="footer-right"></div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="assets/modules/jquery.min.js"></script>
+  <script src="assets/modules/popper.js"></script>
+  <script src="assets/modules/tooltip.js"></script>
+  <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+  <script src="assets/modules/moment.min.js"></script>
+  <script src="assets/js/stisla.js"></script>
+  <script src="./bootstrapt/js/bootstrap.min.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="assets/modules/jquery-ui/jquery-ui.min.js"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="assets/js/page/components-table.js"></script>
+
+  <!-- Template JS File -->
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/admin.js"></script>
+  <script src="assets/js/notice.js"></script>
+</body>
+
+</html>
