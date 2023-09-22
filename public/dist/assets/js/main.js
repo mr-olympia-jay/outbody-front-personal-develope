@@ -1,5 +1,5 @@
-const mainPort = 'http://localhost:3000';
-// const mainPort = 'https://wildbody-server.shop';
+// const mainPort = 'http://localhost:3000';
+const mainPort = 'https://wildbody-server.shop';
 
 const mainToken = localStorage.getItem('cookie');
 const expiration = localStorage.getItem('tokenExpiration');

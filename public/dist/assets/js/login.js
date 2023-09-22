@@ -1,5 +1,5 @@
-const loginPort = 'http://localhost:3000';
-// const loginPort = 'https://wildbody-server.shop';
+// const loginPort = 'http://localhost:3000';
+const loginPort = 'https://wildbody-server.shop';
 
 const login = async () => {
   if (!$('#email').val()) {
